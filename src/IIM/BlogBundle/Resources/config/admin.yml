@@ -1,0 +1,7 @@
+# IIM/BlogBundle/Resources/config/admin.yml
+services:
+    iim.blog.admin.article:
+      class: IIM\BlogBundle\Admin\ArticleAdmin
+      tags:
+        - { name: sonata.admin, manager_type: orm, group: Blog, label: Articles}
+      arguments: [null, IIM\BlogBundle\Entity\Article,SonataAdminBundle:CRUD]

@@ -1,0 +1,7 @@
+# IIM/BlogBundle/Resources/config/validation.yml
+IIM\BlogBundle\Entity\Article:
+    getters:
+        title:
+            - NotBlank:
+        content:
+            - NotBlank:

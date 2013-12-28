@@ -1,0 +1,67 @@
+NelmioApiDocBundle:
+  resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+  prefix:   /api/doc
+
+iim_blog:
+    resource: "@IIMBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+admin:
+  resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+  prefix: /admin/sonata
+
+_sonata_admin:
+  resource: .
+  type: sonata_admin
+  prefix: /admin/sonata
+
+iim_blog_article_all:
+    pattern:  /articles
+    defaults: { _controller: IIMBlogBundle:Article:all, _format: ~ }
+    requirements:
+        _method: GET
+
+iim_blog_article_get:
+    pattern:  /articles/{id}
+    defaults: { _controller: IIMBlogBundle:Article:get, _format: ~ }
+    requirements:
+        _method: GET
+        id: "\d+"
+
+iim_blog_article_new:
+    pattern:  /articles
+    defaults: { _controller: IIMBlogBundle:Article:new, _format: ~ }
+    requirements:
+        _method: POST
+
+iim_blog_article_edit:
+    pattern:  /articles/{id}
+    defaults: { _controller: IIMBlogBundle:Article:edit, _format: ~ }
+    requirements:
+        _method: PUT
+
+iim_blog_article_delete:
+    pattern:  /articles/{id}
+    defaults: { _controller: IIMBlogBundle:Article:remove, _format: ~ }
+    requirements:
+        _method: DELETE
