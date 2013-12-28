@@ -31,118 +31,6 @@ class ArticleController extends Controller
 {
 
     /**
-     * Lists all Article entities.
-     *
-     * @Route("/", name="article")
-     * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        $entities = $this->get('article.manager')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
-    }
-    /**
-     * Creates a new Article entity.
-     *
-     * @Route("/create", name="article_create")
-     * @Template("IIMBlogBundle:Article:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $form = $this->createForm('article', null, array(
-            'action' => $this->generateUrl('article_create'),
-            'method' => 'POST',
-        ));
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        if ('POST' == $request->getMethod()) {
-            $form->handleRequest($request);
-            if ($form->isValid()) {
-                $article = $form->getData();
-                $article->setAuthor($this->getUser());
-
-                $this->get('article.manager')->update($article);
-
-                return $this->redirect($this->generateUrl('article_show', array('id' => $article->getId())));
-            }
-        }
-
-        return array(
-            'form'   => $form->createView()
-        );
-    }
-
-    /**
-     * Finds and displays a Article entity.
-     *
-     * @Route("/{id}", name="article_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $entity = $this->get('article.manager')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Article entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-
-
-    /**
-     * Deletes a Article entity.
-     *
-     * @Route("/{id}", name="article_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $entity = $this->get('article.manager')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Article entity.');
-            }
-
-            $this->get('article.manager')->delete($entity);
-        }
-
-        return $this->redirect($this->generateUrl('article'));
-    }
-
-    /**
-     * Creates a form to delete a Article entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('article_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
-
-    /**
      * List all articles.
      * @Rest\View
      *
@@ -185,15 +73,15 @@ class ArticleController extends Controller
      *
      * @throws NotFoundHttpException when article not exist
      */
-    public function getAction($id)
+    public function getAction($id,$exception = false)
     {
         $article = $this->get('article.manager')->find($id);
 
-        if (!$article instanceof Article) {
-            throw new NotFoundHttpException('User not found');
+        if ($exception && !$article) {
+            throw new NotFoundHttpException('Unable to find article.');
         }
-
         return array('article' => $article);
+
     }
 
 
@@ -218,7 +106,7 @@ class ArticleController extends Controller
      */
     public function newAction(Request $request)
     {
-        $form = $this->createForm(new ArticleType());
+        $form = $this->createForm('article');
         $form->submit($request);
         if ($form->isValid()) {
             $entity = $form->getData();
@@ -254,9 +142,11 @@ class ArticleController extends Controller
     {
 
         $entity = $this->get('article.manager')->find($id);
-        if (isset($entity)) {
 
-            $form = $this->createForm(new ArticleType(), $entity);
+        if (null != $entity) {
+
+            $form = $this->createForm('article', $entity);
+
 
             $form->submit($request);
             if ($form->isValid()) {
@@ -284,7 +174,7 @@ class ArticleController extends Controller
      */
     public function removeAction(Article $article)
     {
-        $article->delete();
+        $this->get('article.manager')->delete($article);
     }
 
 }
