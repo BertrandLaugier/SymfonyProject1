@@ -35,27 +35,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class APIController extends FOSRestController
 {
 
-    /**
-     * Get a single article.
-     *
-     * @ApiDoc(
-     *   output = "IIM\BlogBundle\Entity\Article",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the article is not found"
-     *   }
-     * )
-     *
-     * @Annotations\View()
-     *
-     * @param int     $id      the article id
-     *
-     * @return array
-     *
-     * @Route("/article/{id}")
-     *
-     * @throws NotFoundHttpException when article not exist
-     */
     public function getArticleAction($id)
     {
         $entity = $this->get('article.manager')->find($id);
@@ -71,22 +50,6 @@ class APIController extends FOSRestController
     }
 
 
-    /**
-     * List all articles.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   statusCodes = {
-     *     200 = "Returned when successful"
-     *   }
-     * )
-     *
-     * @Annotations\View()
-     *
-     * @return array
-     *
-     * @Route("/articles")
-     */
     public function getArticlesAction()
     {
         $entities = $this->get('article.manager')->findAll();
@@ -97,27 +60,6 @@ class APIController extends FOSRestController
 
 
 
-
-    /**
-     * Creates a new article from the submitted data.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "IIM\BlogBundle\Form\ArticleType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the form has errors"
-     *   }
-     * )
-     *
-     * @Annotations\View()
-     *
-     * @param Request $request the request object
-     *
-     * @return FormTypeInterface|RouteRedirectView
-     *
-     * @Route("/article/")
-     */
 
     public function postArticlesAction(Request $request)
     {
@@ -134,28 +76,6 @@ class APIController extends FOSRestController
 
     }
 
-    /**
-     * update an article from the submitted data.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "IIM\BlogBundle\Form\ArticleType",
-     *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     400 = "Returned when the form has errors"
-     *   }
-     *
-     * )
-     *
-     * @Annotations\View()
-     *
-     * @param Request $request the request object
-
-     *
-     * @return FormTypeInterface|RouteRedirectView
-     *
-     * @Route("/article/{id}")
-     */
 
     public function putArticlesAction(Request $request, $id)
     {
@@ -189,24 +109,6 @@ class APIController extends FOSRestController
     }
 
 
-    /**
-     * Removes an article.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   statusCodes={
-     *     204="Returned when successful",
-     *   }
-     * )
-     *
-     * @param int     $id      the article id
-     *
-     *
-     *
-     * @Route("/article/{id}")
-     *
-     * @throws NotFoundHttpException when note not exist
-     */
     public function removeArticlesAction($id)
     {
         $entity = $this->get('article.manager')->find($id);
