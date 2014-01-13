@@ -75,11 +75,8 @@ class ArticleController extends Controller
      */
     public function getAction($id,$exception = false)
     {
-        $article = $this->get('article.manager')->find($id);
+        $article = $this->get('article.manager')->find($id, true);
 
-        if ($exception && !$article) {
-            throw new NotFoundHttpException('Unable to find article.');
-        }
         return array('article' => $article);
 
     }

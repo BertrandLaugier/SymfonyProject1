@@ -65,3 +65,8 @@ iim_blog_article_delete:
     defaults: { _controller: IIMBlogBundle:Article:remove, _format: ~ }
     requirements:
         _method: DELETE
+
+
+articles:
+    type:     rest
+    resource: IIM\BlogBundle\Controller\APIController

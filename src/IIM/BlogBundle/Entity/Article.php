@@ -4,6 +4,7 @@ namespace IIM\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
+use JMS\Serializer\Annotation\Groups as Groups;
 
 
 /**
@@ -16,12 +17,14 @@ class Article
 {
 
     use ORMBehaviors\Timestampable\Timestampable;
+
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups ({"FULL","LARGE","SMALL"})
      */
     private $id;
 
@@ -29,6 +32,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Groups({"FULL","LARGE","SMALL"})
      */
     private $title;
 
@@ -36,6 +40,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Groups({"FULL","LARGE","SMALL"})
      */
     private $content;
 
@@ -51,6 +56,7 @@ class Article
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="User")
+     * @Groups({"FULL","LARGE","SMALL"})
      */
     protected $author;
 
