@@ -133,7 +133,6 @@ class ArticleController extends Controller
      * @Annotations\View()
      *
      * @param Request $request the request object
-
      *
      * @return FormTypeInterface|RouteRedirectView
      *

@@ -44,23 +44,6 @@ Les principales difficultés on été de comprendre le fonctionnement de l'archi
 
 Quelques petits bugs m'on ralenti n'étant pas encore très familier avec Symfony.
 
-Enfin, le plus grand problème réside dans la méthode POST :
-
-on doit pour efféctuer un POST se loger. L'affichage des pages étant prédéfini en json (sinon les méthodes ne veulent pas fonctionner en renvoie une erreure.), il faut modifier dans le config.yml dans le bloc se référent au fos_rest:
-
-    format_listener:
-        rules:
-            - { path: ^/, priorities: [ json, xml ], fallback_format: ~, prefer_extension: true }
-
-            par 
-
-
-    format_listener:
-        rules:
-            - { path: ^/, priorities: [ html, json, xml ], fallback_format: ~, prefer_extension: true }
-
-se loger via l'url de type 'monUrlDeProjet/web/app_dev.php/login' avec un utilisateur prédéfini (ou en créer un) et rechanger le format_listener.
-
 
 
 Users et logins
@@ -70,3 +53,10 @@ dans le dossier projet se trouve un dossier sql comprenant un fichier sql permet
 
 name : Bob
 password : password
+
+
+Précision d'utilisation
+-------
+
+Afin de bien utiliser l'API REST, lors des requetes passé avec le bundle NelmioApiDoc ( sur la page /api/doc), il faut préciser en tant que header :
+Accept = application/json
