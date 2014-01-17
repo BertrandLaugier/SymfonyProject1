@@ -83,7 +83,6 @@ class APIController extends FOSRestController
      */
     public function getArticlesAction(Request $request)
     {
-        $articles = $this->get('article.manager')->findAll();
         $form = $this->createForm('search',null,[
             'csrf_protection' => false,
             'method' =>'GET'
@@ -91,6 +90,8 @@ class APIController extends FOSRestController
         $form->handleRequest($request);
         if ($form->isValid()) {
             $articles = $this->get('article.manager')->search($form->getData());
+        } else {
+            $articles = $this->get('article.manager')->findAll();
         }
         $view = new View($articles);
         return $this->handleView($view);

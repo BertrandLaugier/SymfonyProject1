@@ -177,7 +177,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Creates a new Article entity.
+     * search a new Article entity.
      *
      * @Route("/search", name="article_search")
      * @Template("IIMBlogBundle:Article:search.html.twig")
