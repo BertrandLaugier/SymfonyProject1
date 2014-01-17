@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Chercher un article :</h1>
+
+    {{ form_start(search_form) }}
+    {{ form_errors(search_form) }}
+
+    {{ form_row(search_form.content) }}
+    {{ form_end(search_form) }}
+
+    {% if articles is defined %}
+        <h2>Résultats pour "{{ search }}" :</h2>
+        {% for article in articles %}
+            <div>
+               <h3> <a href="{{ path('article_show', { 'id': article.id }) }}">{{ article.title }}</a></h3 >
+               <p>{{ article.content }}</p>
+            </div>
+        {% else %}
+            Pas d'articles correspondants avec votre recherche.
+        {% endfor %}
+    {% endif %}
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('article') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}

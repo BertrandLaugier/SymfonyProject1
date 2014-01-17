@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation\Groups as Groups;
  * Article
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="IIM\BlogBundle\Entity\ArticleRepository")
  */
 class Article
 {

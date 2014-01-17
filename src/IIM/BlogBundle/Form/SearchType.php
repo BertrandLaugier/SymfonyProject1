@@ -6,23 +6,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ArticleType extends AbstractType
+class SearchType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
-            ->add('title')
             ->add('content')
-            ->add('enabled')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      * {@inheritdoc}
@@ -30,7 +27,6 @@ class ArticleType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'IIM\BlogBundle\Entity\Article',
         ));
     }
 
@@ -40,6 +36,6 @@ class ArticleType extends AbstractType
      */
     public function getName()
     {
-        return 'article';
+        return 'search';
     }
 }

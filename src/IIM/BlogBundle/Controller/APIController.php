@@ -28,7 +28,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 
 
-
 /**
  * Article controller.
  *
@@ -60,7 +59,7 @@ class APIController extends FOSRestController
         $entity = $this->get('article.manager')->find($id,true);
 
         $view = new View($entity);
-        $view->setSerializationContext($this->getContext());
+        //$view->setSerializationContext($this->getContext());
 
         return $this->handleView($view);
 
@@ -72,24 +71,30 @@ class APIController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
+     *   input = "IIM\BlogBundle\Form\SearchType",
      *   statusCodes = {
      *     200 = "Returned when successful"
      *   }
      * )
      *
-     * @Annotations\View()
-     *
+     * @param Request $request the request object
      * @return array
      *
      */
-    public function getArticlesAction()
+    public function getArticlesAction(Request $request)
     {
-        $entities = $this->get('article.manager')->findAll();
-
-        $view = new View($entities);
+        $articles = $this->get('article.manager')->findAll();
+        $form = $this->createForm('search',null,[
+            'csrf_protection' => false,
+            'method' =>'GET'
+        ]);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $articles = $this->get('article.manager')->search($form->getData());
+        }
+        $view = new View($articles);
         return $this->handleView($view);
     }
-
 
     /**
      * Create a new article with API controller.
@@ -111,14 +116,18 @@ class APIController extends FOSRestController
      */
     public function postArticlesAction(Request $request)
     {
-        $form = $this->createForm('article');
+        $form = $this->createForm('article',null,[
+            'csrf_protection' => false
+        ]);
         $form->submit($request);
         if ($form->isValid()) {
             $entity = $form->getData();
+            $entity->setAuthor($this->getUser());
             $this->get('article.manager')->update($entity);
-
+            $view = new View($entity);
+            return $this->handleView($view);
         }
-        $view = new View($entity);
+        $view = new View($form);
         return $this->handleView($view);
     }
 
@@ -145,15 +154,21 @@ class APIController extends FOSRestController
     public function putArticlesAction(Request $request, $id)
     {
         $entity = $this->get('article.manager')->find($id, true);
-            $form = $this->createForm('article', $entity);
-            $form->submit($request);
-            if ($form->isValid()) {
-                $this->get('article.manager')->update($entity);
-            }
+        $form = $this->createForm('article', $entity,[
+            'csrf_protection' => false
+        ]);
+        $form->submit($request);
+        if ($form->isValid()) {
+            $this->get('article.manager')->update($entity);
+            $view = new View($entity);
+            return $this->handleView($view);
+        }
+        $view = new View($form);
+        return $this->handleView($view);
     }
 
     /**
-     * Delete an article.
+     * Delete an article with API controller.
      *
      * @ApiDoc(
      *   resource = true,
@@ -164,10 +179,9 @@ class APIController extends FOSRestController
      *
      * @param int     $id      the article id
      */
-    public function deleteArticleAction($id)
+    public function deleteArticleAction(Article $article)
     {
-       $entity = $this->get('article.manager')->find($id, true);
-       $entity->delete();
+        $this->get('article.manager')->delete($article);
     }
 
     protected function getContext()

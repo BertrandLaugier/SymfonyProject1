@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Liip\CacheControlBundle\LiipCacheControlBundle(),
             new Hautelook\TemplatedUriBundle\HautelookTemplatedUriBundle(),
             new Bazinga\Bundle\RestExtraBundle\BazingaRestExtraBundle(),
+            new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
 
         ];
 

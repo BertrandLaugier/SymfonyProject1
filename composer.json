@@ -29,7 +29,8 @@
         "willdurand/hateoas": "~2.0@dev",
         "willdurand/hateoas-bundle": "0.0.*",
         "hautelook/templated-uri-bundle": "~1.0",
-        "willdurand/rest-extra-bundle": "~0.1"
+        "willdurand/rest-extra-bundle": "~0.1",
+        "sensio/buzz-bundle":"dev-master"
 
     },
     "scripts": {

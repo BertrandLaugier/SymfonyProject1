@@ -69,4 +69,5 @@ iim_blog_article_delete:
 
 articles:
     type:     rest
+    prefix: /api
     resource: IIM\BlogBundle\Controller\APIController

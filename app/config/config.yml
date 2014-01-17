@@ -89,6 +89,12 @@ services:
     tags:
     - { name: form.type, alias: article}
 
+  iim.search.form.type:
+      class: IIM\BlogBundle\Form\SearchType
+      tags:
+      - { name: form.type, alias: search}
+
+
   article.listener:
     class: IIM\BlogBundle\Listener\ArticleListener
     arguments: ["@service_container"]
@@ -181,4 +187,7 @@ liip_cache_control:
 
 
 bazinga_rest_extra: ~
+
+sensio_buzz:
+  client_timeout: 20
 
